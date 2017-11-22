@@ -1,0 +1,24 @@
+.fully_center {
+    width: 50%;
+    height: 65%;
+
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    border: 1px solid gray;
+    border-radius: 10px 10px;
+
+    margin: auto;
+    padding: 1%;
+}
+
+label, h3 {
+    color: white;
+}
+
+input[type=text]{
+    color: white;
+}
