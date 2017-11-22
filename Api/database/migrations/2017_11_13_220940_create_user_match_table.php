@@ -14,8 +14,8 @@ class CreateUserMatchTable extends Migration
     public function up()
     {
         Schema::create('user_match', function (Blueprint $table) {
-            $table->integer('user');
-            $table->integer('match');
+            $table->integer('user_id');
+            $table->integer('match_id');
             $table->timestamps();
         });
     }
