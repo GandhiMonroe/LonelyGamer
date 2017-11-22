@@ -28,7 +28,7 @@ class User extends Authenticatable
   ];
 
   public function matches(){
-    return $this->belongsToMany('App\Match');
+    return $this->belongsToMany('App\Match', 'user_match');
   }
   
   public function chat(){
