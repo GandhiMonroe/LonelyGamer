@@ -43,17 +43,17 @@
     <form materialize>
       <div class="row">
         <div class="input-field col s12">
-          <input id="emailReg" type="text" class="validate">
+          <input id="emailReg" name="emailReg" type="text" class="validate" [(ngModel)]="emailReg">
           <label for="emailReg">Email</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="userReg" type="text" class="validate">
+          <input id="userReg" name="userReg" type="text" class="validate" [(ngModel)]="userReg">
           <label for="userReg">Username</label>
         </div>
         <div class="input-field col s6">
-          <input id="passReg" type="text" class="validate">
+          <input id="passReg" name="passReg" type="text" class="validate" [(ngModel)]="passReg">
           <label for="passReg">Password</label>
         </div>
       </div>
@@ -61,6 +61,6 @@
   </div>
   <div class="modal-footer" style="background-color: #365a96;">
     <a class="waves-effect waves-blue btn-flat" style="color: white;" (click)="closeModal()">Close</a>
-    <a class="modal-action modal-close waves-effect waves-blue btn-flat" style="color: white;">Agree</a>
+    <a class="modal-action modal-close waves-effect waves-blue btn-flat" style="color: white;" (click)="register()">Register</a>
   </div>
 </div>
