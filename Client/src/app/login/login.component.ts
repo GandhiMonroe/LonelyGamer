@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Constants } from '../constants';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../services/auth.service';
+
 declare let Materialize: any;
 
 @Component({
@@ -12,13 +14,20 @@ declare let Materialize: any;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-    private router: Router;
+    headers = new Headers({
+        'Content-Type': 'application/json'
+    });
     emailReg: string;
     userReg: string;
     passReg: string;
     url = '';
     registerURL = '/preferences';
+    loginURL = '/';
+
+    data: Object;
+
+    user: string;
+    pass: string;
 
   @Output() modalActions = new EventEmitter<string|MaterializeAction>();
   openModal() {
@@ -28,18 +37,27 @@ export class LoginComponent implements OnInit {
     this.modalActions.emit({action: 'modal', params: ['close']});
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router) {
       this.url = Constants.API_URL;
   }
 
   ngOnInit() {
+
   }
 
   register() {
-      this.http.post(this.url + '/api/signup', {
-          emailReg: this.emailReg,
-          userReg: this.userReg,
-          passReg: this.passReg
-      }).subscribe(res => window.location.href = this.registerURL);
+      this.auth.register(this.emailReg, this.userReg, this.passReg)
+          .then((user) => {localStorage.setItem('token', user.json().token); })
+          .catch(e => {console.log(e); return; });
+
+      this.router.navigate(['/preferences']);
+  }
+
+  onLogin(): void {
+      this.auth.login(this.user, this.pass)
+          .then((user) => {localStorage.setItem('token', user.json().token); })
+          .catch(e => console.log(e));
+
+      this.router.navigate(['/']);
   }
 }

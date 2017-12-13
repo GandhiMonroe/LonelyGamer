@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Hash;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
   use Notifiable;
 
@@ -53,14 +55,18 @@ class User extends Authenticatable implements JWTSubject
           return;
       }
   }
-    
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-    
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
+  
+  public static function check($credentials){
+      $strUser = (string)$credentials['user'];
+      $strPass = (string)$credentials['pass'];
+      
+      $user = User::where('name', $strUser)->first();
+      
+      if (!Hash::check($strPass, $user->password)){
+          abort(409, 'User doesnt exists');
+          return false;
+      }
+      
+      return true;
+  }
 }
