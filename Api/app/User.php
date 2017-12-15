@@ -30,7 +30,7 @@ class User extends Authenticatable
    * @var array
    */
   protected $hidden = [
-      'password', 'remember_token',
+      'remember_token'
   ];
 
   public function matches(){
@@ -48,8 +48,6 @@ class User extends Authenticatable
           $user->email = $credentials['emailReg'];
           $user->password = bcrypt($credentials['passReg']);
           $user->save();
-          
-          //return $this->getJWTIdentifier();
       } catch (Exception $e){
           abort(409, 'User already exists');
           return;
@@ -62,7 +60,14 @@ class User extends Authenticatable
       
       $user = User::where('name', $strUser)->first();
       
-      if (!Hash::check($strPass, $user->password)){
+      if ($user) {
+          if (!Hash::check($strPass, $user->password)){
+              abort(409, 'User doesnt exists');
+              return false;
+          }
+      }
+      else
+      {
           abort(409, 'User doesnt exists');
           return false;
       }

@@ -28,7 +28,7 @@
       </div>
       <div class="col s4">
         <p style="margin: 0; float: right;">
-          <input type="checkbox" style="margin: 0; float: right" id="remember"/>
+          <input type="checkbox" style="margin: 0; float: right" id="remember" name="remember" [(checked)]="remember" (change)="remember = !remember"/>
           <label for="remember">Remember Me?</label>
         </p>
       </div>

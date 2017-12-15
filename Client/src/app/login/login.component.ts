@@ -1,12 +1,8 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {MaterializeAction} from 'angular2-materialize';
-import { HttpClient } from '@angular/common/http';
-import { Constants } from '../constants';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-
-declare let Materialize: any;
 
 @Component({
   selector: 'app-login',
@@ -20,14 +16,10 @@ export class LoginComponent implements OnInit {
     emailReg: string;
     userReg: string;
     passReg: string;
-    url = '';
-    registerURL = '/preferences';
-    loginURL = '/';
-
-    data: Object;
 
     user: string;
     pass: string;
+    remember = false;
 
   @Output() modalActions = new EventEmitter<string|MaterializeAction>();
   openModal() {
@@ -37,17 +29,20 @@ export class LoginComponent implements OnInit {
     this.modalActions.emit({action: 'modal', params: ['close']});
   }
 
-  constructor(private http: HttpClient, private auth: AuthService, private router: Router) {
-      this.url = Constants.API_URL;
-  }
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
+      if (localStorage.getItem('remember') === '1' && localStorage.getItem('user') !== null) {
+          this.user = localStorage.getItem('remUser');
+          this.pass = localStorage.getItem('remPass');
 
+          this.onLogin();
+      }
   }
 
   register() {
       this.auth.register(this.emailReg, this.userReg, this.passReg)
-          .then((user) => {localStorage.setItem('token', user.json().token); })
+          .then((user) => {localStorage.setItem('token', user.json().token); localStorage.setItem('user', user.json().user); })
           .catch(e => {console.log(e); return; });
 
       this.router.navigate(['/preferences']);
@@ -55,8 +50,14 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
       this.auth.login(this.user, this.pass)
-          .then((user) => {localStorage.setItem('token', user.json().token); })
-          .catch(e => console.log(e));
+          .then((user) => {localStorage.setItem('token', user.json().token); localStorage.setItem('user', user.json().user); })
+          .catch(e => {console.log(e); return; });
+
+      if (this.remember) {
+          localStorage.setItem('remUser', this.user);
+          localStorage.setItem('remPass', this.pass);
+          localStorage.setItem('remember', this.remember.toString());
+      }
 
       this.router.navigate(['/']);
   }
