@@ -1,3 +1,52 @@
-<p>
-  preferences works!
-</p>
+<div class="row">
+</div>
+
+<form materialize>
+    <div class="row">
+        <select materialize="material_select" id="gameSelect" name="gameSelect" [ngModel]="games" (change)="getRolesForGame($event.target.value)">
+            <option value="" disabled selected>Select a game</option>
+            <option *ngFor="let game of games" value="{{game.id}}">{{game.name}}</option>
+        </select>
+        <label for="gameSelect">Select a game</label>
+    </div>
+    <div *ngIf="currentGame == 1" class="row">
+        <div class="input-field col s12">
+            <input id="IG" name="summonerID" type="text" [(ngModel)]="summonerID">
+            <label for="IG">Summoner Name</label>
+        </div>
+    </div>
+    <div *ngIf="currentGame == 2" class="row">
+        <div class="input-field col s12">
+            <input id="steamID" name="steamID" type="text" [(ngModel)]="steamID">
+            <label for="steamID">Steam Account ID</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <select [ngModel]="roles" materialize="material_select" id="myPrimary" name="role" (change)="myPrimary = $event.target.value">
+                <option value="" disabled selected>Primary role</option>
+                <option *ngFor="let role of roles" value="{{role.id}}">{{role.role}}</option>
+            </select>
+            <select [ngModel]="roles" materialize="material_select" id="mySecondary" name="role" (change)="mySecondary = $event.target.value">
+                <option value="" disabled selected>Secondary role</option>
+                <option *ngFor="let role of roles" value="{{role.id}}">{{role.role}}</option>
+            </select>
+        </div>
+
+        <div class="col s6">
+            <select [ngModel]="roles" materialize="material_select" id="matchPrimary" name="role" (change)="matchPrimary = $event.target.value">
+                <option value="" disabled selected>Primary role</option>
+                <option *ngFor="let role of roles" value="{{role.id}}">{{role.role}}</option>
+            </select>
+            <select [ngModel]="roles" materialize="material_select" id="matchSecondary" name="role" (change)="matchSecondary = $event.target.value">
+                <option value="" disabled selected>Secondary role</option>
+                <option *ngFor="let role of roles" value="{{role.id}}">{{role.role}}</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <button class="btn waves-effect waves-light" type="submit" name="action" (click)="insertPref()">Submit
+            <i class="material-icons right">send</i>
+        </button>
+    </div>
+</form>

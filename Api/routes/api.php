@@ -20,3 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('signup', 'UserController@register');
 
 Route::post('login', 'UserController@signin');
+
+Route::get('getGames', 'GameController@getAll');
+
+Route::get('getRolesByGame', 'RoleController@getAllRolesByGame');
+
+Route::post('newPref', 'UserController@insertPref');

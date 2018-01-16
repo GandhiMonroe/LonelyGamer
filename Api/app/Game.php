@@ -19,4 +19,8 @@ class Game extends Model
    * @var bool
    */
   public $timestamps = false;
+  
+  public static function getAll(){
+      return Game::all();
+  }
 }

@@ -50,7 +50,8 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
       this.auth.login(this.user, this.pass)
-          .then((user) => {localStorage.setItem('token', user.json().token); localStorage.setItem('user', user.json().user); })
+          .then((user) => {localStorage.setItem('token', user.json().token);
+          localStorage.setItem('user', user.json().user); })
           .catch(e => {console.log(e); return; });
 
       if (this.remember) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Preference;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
@@ -38,5 +39,13 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'User does not exist'], Response::HTTP_UNAUTHORIZED);
         }
+    }
+    
+    public function insertPref(Request $request){
+        $preference = $request->only('userID', 'account', 'gameID', 'myPrim', 'mySec', 'matchPrim', 'matchSec');
+        
+        Preference::insert($preference);
+        
+        return Response::HTTP_OK;
     }
 }

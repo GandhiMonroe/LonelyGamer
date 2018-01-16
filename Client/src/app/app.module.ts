@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './login.guard';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { HomeComponent } from './home/home.component';
+import {GamesService} from './services/games.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { HomeComponent } from './home/home.component';
           ]}
       ])
   ],
-  providers: [AuthService, LoginGuard],
+  providers: [AuthService, GamesService, LoginGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,64 +3,66 @@
 
 <!-- Login Form -->
 <div class="fully_center" style="background-color: #273f66;">
-  <div class="row center">
-    <h3>Logo needs to go here</h3>
-  </div>
-  <form materialize>
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="user" type="text" name="user" class="validate" [(ngModel)]="user">
-        <label for="user">Username</label>
-      </div>
+    <div class="row center">
+        <h3>Logo needs to go here</h3>
     </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="password" name="pass" type="password" [(ngModel)]="pass">
-        <label for="password">Password</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s8" style="margin-top: auto; margin-bottom: auto">
-        <button class="btn waves-effect waves-light" type="submit" name="action" (click)="onLogin()">Submit
-          <i class="material-icons right">send</i>
-        </button>
-        <a style="margin-left: 5%;" class="waves-effect waves-light btn modal-trigger" (click)="openModal()">Register</a>
-      </div>
-      <div class="col s4">
-        <p style="margin: 0; float: right;">
-          <input type="checkbox" style="margin: 0; float: right" id="remember" name="remember" [(checked)]="remember" (change)="remember = !remember"/>
-          <label for="remember">Remember Me?</label>
-        </p>
-      </div>
-    </div>
-  </form>
+    <form materialize>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="user" type="text" name="user" class="validate" [(ngModel)]="user">
+                <label for="user">Username</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" name="pass" type="password" [(ngModel)]="pass">
+                <label for="password">Password</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s8" style="margin-top: auto; margin-bottom: auto">
+                <button class="btn waves-effect waves-light" type="submit" name="action" (click)="onLogin()">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+                <a style="margin-left: 5%;" class="waves-effect waves-light btn modal-trigger" (click)="openModal()">Register</a>
+            </div>
+            <div class="col s4">
+                <p style="margin: 0; float: right;">
+                    <input type="checkbox" style="margin: 0; float: right" id="remember" name="remember"
+                           [(checked)]="remember" (change)="remember = !remember"/>
+                    <label for="remember">Remember Me?</label>
+                </p>
+            </div>
+        </div>
+    </form>
 </div>
 
 <!-- Register Modal -->
-<div id="modal1" class="modal" materialize="modal" style="background-color: #273f66;" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-  <div class="modal-content">
-    <h4 style="color: white;">Register</h4>
-    <form materialize>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="emailReg" name="emailReg" type="text" class="validate" [(ngModel)]="emailReg">
-          <label for="emailReg">Email</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="userReg" name="userReg" type="text" class="validate" [(ngModel)]="userReg">
-          <label for="userReg">Username</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="passReg" name="passReg" type="text" class="validate" [(ngModel)]="passReg">
-          <label for="passReg">Password</label>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer" style="background-color: #365a96;">
-    <a class="waves-effect waves-blue btn-flat" style="color: white;" (click)="closeModal()">Close</a>
-    <a class="modal-action modal-close waves-effect waves-blue btn-flat" style="color: white;" (click)="register()">Register</a>
-  </div>
+<div id="modal1" class="modal" materialize="modal" style="background-color: #273f66;"
+     [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content">
+        <h4 style="color: white;">Register</h4>
+        <form materialize>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="emailReg" name="emailReg" type="text" class="validate" [(ngModel)]="emailReg">
+                    <label for="emailReg">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="userReg" name="userReg" type="text" class="validate" [(ngModel)]="userReg">
+                    <label for="userReg">Username</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="passReg" name="passReg" type="text" class="validate" [(ngModel)]="passReg">
+                    <label for="passReg">Password</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="background-color: #365a96;">
+        <a class="waves-effect waves-blue btn-flat" style="color: white;" (click)="closeModal()">Close</a>
+        <a class="modal-action modal-close waves-effect waves-blue btn-flat" style="color: white;" (click)="register()">Register</a>
+    </div>
 </div>
