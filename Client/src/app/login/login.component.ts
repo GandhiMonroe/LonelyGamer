@@ -42,7 +42,9 @@ export class LoginComponent implements OnInit {
 
   register() {
       this.auth.register(this.emailReg, this.userReg, this.passReg)
-          .then((user) => {localStorage.setItem('token', user.json().token); localStorage.setItem('user', user.json().user); })
+          .then((user) => {localStorage.setItem('token', user.json().token);
+          localStorage.setItem('user', user.json().user);
+          localStorage.setItem('userID', user.json().userID); })
           .catch(e => {console.log(e); return; });
 
       this.router.navigate(['/preferences']);
@@ -51,7 +53,8 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
       this.auth.login(this.user, this.pass)
           .then((user) => {localStorage.setItem('token', user.json().token);
-          localStorage.setItem('user', user.json().user); })
+          localStorage.setItem('user', user.json().user);
+          localStorage.setItem('userID', user.json().userID); })
           .catch(e => {console.log(e); return; });
 
       if (this.remember) {

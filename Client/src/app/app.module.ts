@@ -14,13 +14,15 @@ import { LoginGuard } from './login.guard';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { HomeComponent } from './home/home.component';
 import {GamesService} from './services/games.service';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
       AppComponent,
       LoginComponent,
       PreferencesComponent,
-      HomeComponent
+      HomeComponent,
+      SearchComponent
   ],
   imports: [
       BrowserModule,

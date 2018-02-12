@@ -26,3 +26,9 @@ Route::get('getGames', 'GameController@getAll');
 Route::get('getRolesByGame', 'RoleController@getAllRolesByGame');
 
 Route::post('newPref', 'UserController@insertPref');
+
+Route::get('getMatches', 'MatchController@getAll');
+
+Route::post('enterQueue', 'MatchController@enterQueue');
+
+Route::post('exitQueue', 'MatchController@exitQueue');

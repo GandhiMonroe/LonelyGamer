@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GamesService } from '../services/games.service';
-import {Http} from '@angular/http';
-import {HttpParams} from '@angular/common/http';
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-import {isNull} from "util";
-import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
   selector: 'app-preferences',
@@ -41,8 +38,6 @@ export class PreferencesComponent implements OnInit {
         this.http.get(url, {params: params}).subscribe(res => this.roles = res.json());
 
         this.currentGame = gameID;
-
-        console.log(this.roles);
     }
 
     insertPref() {

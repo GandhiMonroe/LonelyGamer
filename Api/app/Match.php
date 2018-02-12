@@ -24,4 +24,8 @@ class Match extends Model
   {
     return $this->belongsToMany('App\User', 'user_match');
   }
+  
+  public static function getAll($userID) {
+      return Match::where('userID', $userID)->get();
+  }
 }

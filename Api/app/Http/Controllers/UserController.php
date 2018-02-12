@@ -22,10 +22,10 @@ class UserController extends Controller
             return response()->json(['error' => 'User already exists.'], Response::HTTP_CONFLICT);
         }
         
-        //$token = JWTAuth::fromUser($user);
+        $user = User::where('name', $credentials['userReg'])->first();
     
         $code = str_random(10);
-        return response()->json(['message' => 'User registered', 'user' => (string)$credentials['userReg'], 'token' => $code], Response::HTTP_OK);
+        return response()->json(['message' => 'User registered', 'user' => $user->name, 'token' => $code, 'userID' => $user->id], Response::HTTP_OK);
     }
     
     public function signin(Request $request){
@@ -33,8 +33,9 @@ class UserController extends Controller
         
         try{
             if(User::check($credentials)){
+                $user = User::where('name', $credentials['user'])->first();
                 $code = str_random(10);
-                return response()->json(['message' => 'Login successful', 'user' => (string)$credentials['user'], 'token' => $code], Response::HTTP_OK);
+                return response()->json(['message' => 'Login successful', 'user' => $user->name, 'token' => $code, 'userID' => $user->id], Response::HTTP_OK);
             }
         } catch (Exception $e) {
             return response()->json(['error' => 'User does not exist'], Response::HTTP_UNAUTHORIZED);
