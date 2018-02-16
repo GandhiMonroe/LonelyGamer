@@ -32,3 +32,5 @@ Route::get('getMatches', 'MatchController@getAll');
 Route::post('enterQueue', 'MatchController@enterQueue');
 
 Route::post('exitQueue', 'MatchController@exitQueue');
+
+Route::get('getCompList', 'MatchController@getList');

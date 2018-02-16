@@ -14,13 +14,12 @@ class MatchQueue extends Model
      */
     protected $table = 'match_queue';
     
-    public static function EnterQueue($user, $game) {
+    public static function EnterQueue($user, $game, $rank) {
         try {
-            $userID = User::where('name', $user)->select('id')->first();
-            
             $queueEntry = new MatchQueue();
-            $queueEntry->userID = $userID->id;
+            $queueEntry->userID = $user;
             $queueEntry->gameID = (int)$game;
+            $queueEntry->rank = (int)$rank;
             $queueEntry->save();
         }
         catch (Exception $e) {
@@ -30,9 +29,7 @@ class MatchQueue extends Model
     
     public static function ExitQueue($user, $game) {
         try {
-            $userID = User::where('name', $user)->select('id')->first();
-            
-            MatchQueue::where('userID', $userID->id)->where('gameID', $game)->delete();
+            MatchQueue::where('userID', $user)->where('gameID', $game)->delete();
         }
         catch (Exception $e) {
             abort(402, $e->getMessage());

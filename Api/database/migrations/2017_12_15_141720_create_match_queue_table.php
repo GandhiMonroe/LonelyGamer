@@ -16,6 +16,7 @@ class CreateMatchQueueTable extends Migration
         Schema::create('match_queue', function (Blueprint $table) {
             $table->integer('userID');
             $table->integer('gameID');
+            $table->integer('rank');
             $table->timestamps();
         });
     }

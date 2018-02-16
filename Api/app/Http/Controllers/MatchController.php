@@ -24,7 +24,17 @@ class MatchController extends Controller
         try {
             $userID = $request->get('userID');
             $gameID = $request->get('gameID');
-            MatchQueue::EnterQueue($userID, $gameID);
+    
+            //Get summonerID of user
+            $pref = Preference::where('userID', $userID)->where('gameID', $gameID)->first();
+            $summonerInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'.$pref->account.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
+            $summonerID = $summonerInfo['id'];
+    
+            //Get rank info
+            $rankInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/'.$summonerID.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
+            $rank = $this->convertRank($rankInfo[0]['tier'], $rankInfo[0]['rank']);
+            
+            MatchQueue::EnterQueue($userID, $gameID, $rank);
             return response()->json('User now in Queue', 200);
         }
         catch (Exception $e) {
@@ -58,7 +68,9 @@ class MatchController extends Controller
             $rankInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/'.$summonerID.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
             $rank = $this->convertRank($rankInfo->tier, $rankInfo->rank);
             
-            //TODO: Finish this pls ty.
+            $matchList = MatchQueue::where('gameID', $gameID)->where(abs($rank - 'rank'), '<' , 3)->get();
+            
+            return response()->json($matchList);
         }
         catch (Exception $e) {
         

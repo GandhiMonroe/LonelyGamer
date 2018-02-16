@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             GamesTableSeeder::class,
             GameRoleTableSeeder::class,
-            MatchTableSeeder::class
+            MatchTableSeeder::class,
+            PrefTableSeeder::class
         ]);
     }
 }

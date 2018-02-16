@@ -10,7 +10,7 @@ export class SearchComponent implements OnInit {
     private BASE_URL = 'http://localhost:8000/api';
     private headers: Headers = new Headers({'Content-Type': 'application/json'});
 
-    userID = localStorage.getItem('user');
+    userID = localStorage.getItem('userID');
     gameID = localStorage.getItem('game');
 
     inQueue = 0;
