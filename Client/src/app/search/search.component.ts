@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
 
 @Component({
@@ -15,6 +15,8 @@ export class SearchComponent implements OnInit {
 
     inQueue = 0;
 
+    compList;
+
     constructor(private http: Http) {
     }
 
@@ -24,7 +26,7 @@ export class SearchComponent implements OnInit {
     enterQueue() {
         const url = `${this.BASE_URL}/enterQueue`;
 
-        this.http.post(url, { userID: this.userID, gameID: this.gameID }).subscribe((res) => { this.inQueue = 1; });
+        this.http.post(url, { userID: this.userID, gameID: this.gameID }).subscribe((res) => { this.inQueue = 1; this.getList(); });
     }
 
     exitQueue() {
@@ -33,5 +35,13 @@ export class SearchComponent implements OnInit {
         const params = {userID: this.userID, gameID: this.gameID};
 
         this.http.post(url, { userID: this.userID, gameID: this.gameID }).subscribe((res) => { this.inQueue = 0; });
+    }
+
+    getList() {
+        const url = `${this.BASE_URL}/getCompList`;
+
+        const params = {userID: this.userID, gameID: this.gameID};
+
+        this.http.get(url, {params: params}).subscribe((res) => this.compList = res.json());
     }
 }

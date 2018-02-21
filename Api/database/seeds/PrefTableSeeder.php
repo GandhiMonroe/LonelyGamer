@@ -12,9 +12,9 @@ class PrefTableSeeder extends Seeder
     public function run()
     {
         \DB::table('preferences')->insert([
-            'userID' => 2,
+            'userID' => 1,
             'gameID' => 1,
-            'account' => 'Dilib',
+            'account' => 'C9 Dilib',
             'myPrimary' => 1,
             'mySecondary' => 2,
             'matchPrimary' => 3,

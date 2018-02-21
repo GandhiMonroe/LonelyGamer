@@ -1,6 +1,6 @@
 .match-list {
     height: 100vh; /* Full-height: remove this if you want "auto" height */
-    width: 230px; /* Set the width of the sidebar */
+    width: 15%; /* Set the width of the sidebar */
     left: 0;
     background-color: #1f3251;
     overflow-x: hidden; /* Disable horizontal scroll */

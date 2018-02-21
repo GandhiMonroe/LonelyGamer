@@ -1,2 +1,4 @@
-<button *ngIf="!inQueue" (click)="enterQueue()">Search</button>
-<button *ngIf="inQueue" (click)="exitQueue()">Cancel</button>
+<div class="full-div">
+    <a class="waves-effect waves-light btn center-button" *ngIf="!inQueue" (click)="enterQueue()">Search</a>
+    <a class="waves-effect waves-light btn center-button" *ngIf="inQueue" (click)="exitQueue()">Cancel</a>
+</div>

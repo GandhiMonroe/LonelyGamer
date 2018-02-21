@@ -1,0 +1,14 @@
+.full-div {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.center-button {
+    margin: 0;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}

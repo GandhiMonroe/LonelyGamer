@@ -27,7 +27,8 @@ class MatchController extends Controller
     
             //Get summonerID of user
             $pref = Preference::where('userID', $userID)->where('gameID', $gameID)->first();
-            $summonerInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'.$pref->account.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
+            $account = str_replace(' ', '%20', $pref->account);
+            $summonerInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'.$account.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
             $summonerID = $summonerInfo['id'];
     
             //Get rank info
@@ -61,16 +62,24 @@ class MatchController extends Controller
             
             //Get summonerID of user
             $pref = Preference::where('userID', $userID)->where('gameID', $gameID)->first();
-            $summonerInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'.$pref->account.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
-            $summonerID = $summonerInfo->id;
+            $account = str_replace(' ', '%20', $pref->account);
+            $summonerInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'.$account.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
+            $summonerID = $summonerInfo['id'];
             
             //Get rank info
             $rankInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/'.$summonerID.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
-            $rank = $this->convertRank($rankInfo->tier, $rankInfo->rank);
+            $rank = $this->convertRank($rankInfo[0]['tier'], $rankInfo[0]['rank']);
             
-            $matchList = MatchQueue::where('gameID', $gameID)->where(abs($rank - 'rank'), '<' , 3)->get();
+            $matchList = MatchQueue::where('gameID', $gameID)->where('userID', '!=', $userID)->get();
             
-            return response()->json($matchList);
+            $list = array();
+            foreach ($matchList as $entry) {
+                if(abs($rank - $entry->rank) < 3) {
+                    array_push($list, $entry);
+                }
+            }
+            
+            return response()->json($list);
         }
         catch (Exception $e) {
         
