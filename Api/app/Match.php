@@ -28,4 +28,12 @@ class Match extends Model
   public static function getAll($userID) {
       return Match::where('userID', $userID)->get();
   }
+  
+  public static function add($userID, $matchID, $gameID) {
+      $match = new Match();
+      $match->userID = $userID;
+      $match->matchUserID = $matchID;
+      $match->gameID = $gameID;
+      $match->save();
+  }
 }

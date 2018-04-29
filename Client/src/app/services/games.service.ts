@@ -13,7 +13,6 @@ export class GamesService {
     }
 
     addPref(user, account, game, myPrim, mySec, matchPrim, matchSec) {
-        console.log(account);
         const url = `${this.BASE_URL}/newPref`;
         return this.http.post(url,
             {userID: user, gameID: game, account: account, myPrim: myPrim, mySec: mySec, matchPrim: matchPrim, matchSec: matchSec},

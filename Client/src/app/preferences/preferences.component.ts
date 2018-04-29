@@ -41,21 +41,16 @@ export class PreferencesComponent implements OnInit {
     }
 
     insertPref() {
-        console.log(this.summonerID);
-
         let account;
-
         if (this.currentGame === 1) {
             account = this.summonerID;
         } else {
             account = this.steamID;
         }
-
         this.gameService.addPref(
             localStorage.getItem('user'), this.summonerID, this.currentGame, this.myPrimary, this.mySecondary,
             this.matchPrimary, this.matchSecondary)
             .then();
-
         this.router.navigate(['/']);
     }
 }

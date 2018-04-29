@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Match;
 use App\MatchQueue;
+use App\MatchRequest;
 use App\Preference;
+use App\User;
 use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MatchController extends Controller
 {
@@ -35,11 +38,11 @@ class MatchController extends Controller
             $rankInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/'.$summonerID.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
             $rank = $this->convertRank($rankInfo[0]['tier'], $rankInfo[0]['rank']);
             
-            MatchQueue::EnterQueue($userID, $gameID, $rank);
+            MatchQueue::EnterQueue($userID, $gameID, $rank, $rankInfo[0]['tier'], $rankInfo[0]['rank']);
             return response()->json('User now in Queue', 200);
         }
         catch (Exception $e) {
-        
+            return response()->json('User could not enter queue', Response::HTTP_CONFLICT);
         }
     }
     
@@ -60,29 +63,73 @@ class MatchController extends Controller
             $userID = $request->get('userID');
             $gameID = $request->get('gameID');
             
-            //Get summonerID of user
-            $pref = Preference::where('userID', $userID)->where('gameID', $gameID)->first();
-            $account = str_replace(' ', '%20', $pref->account);
-            $summonerInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/'.$account.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
-            $summonerID = $summonerInfo['id'];
-            
-            //Get rank info
-            $rankInfo = json_decode(file_get_contents('https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/'.$summonerID.'?api_key=RGAPI-9a4f59bb-4cf0-4f46-a108-aa5641ebf3ef'), true);
-            $rank = $this->convertRank($rankInfo[0]['tier'], $rankInfo[0]['rank']);
+            $rank = MatchQueue::select('rank')->where('userID', $userID)->first();
+            $rank = $rank->rank;
             
             $matchList = MatchQueue::where('gameID', $gameID)->where('userID', '!=', $userID)->get();
             
-            $list = array();
+            $finalList = array();
             foreach ($matchList as $entry) {
                 if(abs($rank - $entry->rank) < 3) {
-                    array_push($list, $entry);
+                    $user = User::where('id', $entry->userID)->first();
+                    $array = ['userID' => $entry->userID, 'name' => $user->name, 'tier' => $entry->tier, 'div' => $entry->division];
+                    array_push($finalList, $array);
                 }
             }
             
-            return response()->json($list);
+            return response()->json($finalList);
         }
         catch (Exception $e) {
+            return response()->json('Could not retrieve list', Response::HTTP_CONFLICT);
+        }
+    }
+    
+    public function sendRequest(Request $request) {
+        $userID = $request->get('userID');
+        $matchID = $request->get('matchID');
+        $gameID = $request->get('gameID');
         
+        $request = MatchRequest::where('userID', $matchID)->where('matchID', $userID)->where('gameID', $gameID)->get();
+        
+        if ($request->count()) {
+            Match::add($userID, $matchID, $gameID);
+    
+            MatchRequest::where('userID', $matchID)->where('matchID', $userID)->where('gameID', $gameID)->delete();
+            MatchRequest::where('userID', $userID)->where('matchID', $matchID)->where('gameID', $gameID)->delete();
+        }
+        else {
+            MatchRequest::add($userID, $matchID, $gameID);
+        }
+    }
+    
+    public function declineRequest(Request $request) {
+        try {
+            $userID = $request->get('userID');
+            $matchID = $request->get('matchID');
+            $gameID = $request->get('gameID');
+    
+            MatchRequest::where('userID', $matchID)->where('matchID', $userID)->where('gameID', $gameID)->delete();
+    
+            return response()->json('Requests deleted', 200);
+        }
+        catch (Exception $e) {
+            return response()->json('Could not delete requests', Response::HTTP_CONFLICT);
+        }
+    }
+    
+    public function unmatch(Request $request) {
+        try {
+            $userID = $request->get('userID');
+            $matchID = $request->get('matchID');
+            $gameID = $request->get('gameID');
+    
+            Match::where('userID', $matchID)->where('matchUserID', $userID)->where('gameID', $gameID)->delete();
+            Match::where('userID', $userID)->where('matchUserID', $matchID)->where('gameID', $gameID)->delete();
+            
+            return response()->json('Unmatched with user '.$matchID, 200);
+        }
+        catch (Exception $e) {
+            return response()->json('Could not unmatch with user '.$matchID, Response::HTTP_CONFLICT);
         }
     }
     
@@ -95,8 +142,8 @@ class MatchController extends Controller
             case 'GOLD': $rank = 10; break;
             case 'PLATINUM': $rank = 15; break;
             case 'DIAMOND': $rank = 20; break;
-            case 'MASTER': $rank = 27; break;
-            case 'CHALLENGER': $rank = 29; break;
+            case 'MASTER': $rank = 27; return $rank; break;
+            case 'CHALLENGER': $rank = 29; return $rank; break;
         }
         
         switch ($division) {

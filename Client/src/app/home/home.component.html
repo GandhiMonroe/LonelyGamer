@@ -4,14 +4,16 @@
         <a (click)="openSideNav()" materialize="sideNav" href="#" data-activates="sideNavbar"
            class="button-collapse"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a><i class="large material-icons">settings</i></a></li>
-            <li><a>Profile</a></li>
-            <li><a>Logout</a></li>
+            <li (click)="compNumber = 1"><a><i class="large material-icons">search</i></a></li>
+            <li (click)="compNumber = 2"><a><i class="large material-icons">settings</i></a></li>
+            <li (click)="compNumber = 3"><a>Profile</a></li>
+            <li (click)="logOff()"><a>Logout</a></li>
         </ul>
         <ul class="side-nav" id="sideNavbar">
-            <li><a>Preferences</a></li>
-            <li><a>Profile</a></li>
-            <li><a>Logout</a></li>
+            <li (click)="compNumber = 1"><a>Search</a></li>
+            <li (click)="compNumber = 2"><a>Preferences</a></li>
+            <li (click)="compNumber = 3"><a>Profile</a></li>
+            <li (click)="logOff()"><a>Logout</a></li>
         </ul>
     </div>
 </nav>
@@ -19,11 +21,13 @@
     <div class="match-list" style="box-shadow: 5px 10px 18px #111">
         <h4 style="text-align: center">Matches</h4>
         <div *ngFor="let match of matches">
-            <a >{{match.matchUserID}}</a>
+            <a >{{match.name}}</a>
         </div>
     </div>
     <div style="position: fixed; left: 15%; width: 100%; height: 100%; padding: 10px;">
-        <app-search></app-search>
+        <app-search *ngIf="compNumber == 1"></app-search>
+        <app-preferences *ngIf="compNumber == 2"></app-preferences>
+        <app-profile *ngIf="compNumber == 3"></app-profile>
     </div>
 </div>
 

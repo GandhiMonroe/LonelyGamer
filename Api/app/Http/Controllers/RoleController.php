@@ -13,7 +13,7 @@ class RoleController extends Controller
             $gameID = $request->only('gameID');
             return response()->json(Role::getRolesForGame($gameID));
         } catch (Exception $e) {
-        
+            return response()->json(['error' => 'Failed to retrieve roles'], Response::HTTP_CONFLICT);
         }
     }
 }

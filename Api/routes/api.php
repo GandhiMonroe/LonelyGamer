@@ -34,3 +34,9 @@ Route::post('enterQueue', 'MatchController@enterQueue');
 Route::post('exitQueue', 'MatchController@exitQueue');
 
 Route::get('getCompList', 'MatchController@getList');
+
+Route::get('sendRequest', 'MatchController@sendRequest');
+
+Route::get('declineRequest', 'MatchController@declineRequest');
+
+Route::get('getRecentGames', 'UserController@getRecentGames');

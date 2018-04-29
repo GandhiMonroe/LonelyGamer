@@ -22,3 +22,9 @@ label, h3, span, div {
 input[type=text], select option{
     color: white;
 }
+
+.full-div {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}

@@ -14,12 +14,14 @@ class MatchQueue extends Model
      */
     protected $table = 'match_queue';
     
-    public static function EnterQueue($user, $game, $rank) {
+    public static function EnterQueue($user, $game, $rank, $tier, $div) {
         try {
             $queueEntry = new MatchQueue();
             $queueEntry->userID = $user;
             $queueEntry->gameID = (int)$game;
             $queueEntry->rank = (int)$rank;
+            $queueEntry->tier = $tier;
+            $queueEntry->division = $div;
             $queueEntry->save();
         }
         catch (Exception $e) {

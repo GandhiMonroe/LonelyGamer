@@ -13,8 +13,11 @@ import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './login.guard';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { HomeComponent } from './home/home.component';
-import {GamesService} from './services/games.service';
+import { GamesService } from './services/games.service';
 import { SearchComponent } from './search/search.component';
+import { SocketService } from './services/socket.service';
+import { MatchService } from './services/match.service';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { SearchComponent } from './search/search.component';
       LoginComponent,
       PreferencesComponent,
       HomeComponent,
-      SearchComponent
+      SearchComponent,
+      ProfileComponent
   ],
   imports: [
       BrowserModule,
@@ -34,11 +38,12 @@ import { SearchComponent } from './search/search.component';
           { path: 'login', component: LoginComponent },
           { path: '', canActivate: [LoginGuard], children: [ // Put all other routes in here so that route guard is applied
               { path: 'preferences', component: PreferencesComponent },
+              { path: 'home/:id', component: HomeComponent},
               { path: '', component: HomeComponent}
           ]}
       ])
   ],
-  providers: [AuthService, GamesService, LoginGuard],
+  providers: [AuthService, GamesService, LoginGuard, SocketService, MatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

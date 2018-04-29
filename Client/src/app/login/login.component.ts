@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userID', user.json().userID); })
           .catch(e => {console.log(e); return; });
 
-      this.router.navigate(['/preferences']);
+      this.auth.login(this.userReg, this.passReg).then((user) => this.router.navigate(['/home/2']));
   }
 
   onLogin(): void {

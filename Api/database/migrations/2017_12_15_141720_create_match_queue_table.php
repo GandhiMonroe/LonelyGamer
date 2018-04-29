@@ -17,6 +17,8 @@ class CreateMatchQueueTable extends Migration
             $table->integer('userID');
             $table->integer('gameID');
             $table->integer('rank');
+            $table->string('tier');
+            $table->string('division');
             $table->timestamps();
         });
     }
