@@ -23,7 +23,9 @@
 }
 
 .game {
-    border: solid black;
-    border-radius: 10%;
     margin: 1%;
+    vertical-align: middle;
+    border: 1px solid gray;
+    border-radius: 10px 10px;
+    background-color: #273f66;
 }

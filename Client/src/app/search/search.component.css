@@ -25,8 +25,9 @@
 .comp-list {
     width: 20%;
     height: 25%;
-    border: solid red;
-    border-radius: 25px;
+    border: 1px solid gray;
+    border-radius: 10px 10px;
+    background-color: #273f66;
     top: 10%;
     margin: 5%;
     padding: 2%;

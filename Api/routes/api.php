@@ -40,3 +40,5 @@ Route::get('sendRequest', 'MatchController@sendRequest');
 Route::get('declineRequest', 'MatchController@declineRequest');
 
 Route::get('getRecentGames', 'UserController@getRecentGames');
+
+Route::get('getPreferences', 'UserController@getPreferences');

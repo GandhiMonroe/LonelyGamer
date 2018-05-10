@@ -23,6 +23,23 @@ export class HomeComponent implements OnInit {
 
     compNumber = 1;
 
+    selectedUser;
+
+    sideNavActions = new EventEmitter<any | MaterializeAction>();
+    profileView = new EventEmitter<string|MaterializeAction>();
+
+    openSideNav() {
+        this.sideNavActions.emit({ action: 'sideNav', params: ['show'] });
+    }
+
+    openModal(selected) {
+        this.selectedUser = selected;
+        this.profileView.emit({action: 'modal', params: ['open']});
+    }
+    closeModal() {
+        this.profileView.emit({action: 'modal', params: ['close']});
+    }
+
     constructor(private http: Http, private router: Router, private route: ActivatedRoute, private matchService: MatchService) {
         this.route.params.subscribe( params => this.compNumber = +params['id']);
         if (isNaN(this.compNumber)) {
@@ -30,10 +47,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    sideNavActions = new EventEmitter<any | MaterializeAction>();
-    openSideNav() {
-        this.sideNavActions.emit({ action: 'sideNav', params: ['show'] });
-    }
+
     closeSideNav() {
         this.sideNavActions.emit({ action: 'sideNav', params: ['hide'] });
     }
@@ -46,7 +60,10 @@ export class HomeComponent implements OnInit {
 
     newMatches() {
         this.matchService.getMatches(this.userID).subscribe((data) => { this.matches = data.json(); });
-        console.log(this.matches);
+    }
+
+    selectChange(event) {
+        this.selectedUser = event;
     }
 
     logOff() {

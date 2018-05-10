@@ -2,6 +2,8 @@ import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/co
 import {Http} from '@angular/http';
 import {SocketService} from '../services/socket.service';
 import {MatchService} from '../services/match.service';
+import {MaterializeAction} from 'angular2-materialize';
+import 'materialize-css';
 
 @Component({
     selector: 'app-search',
@@ -19,11 +21,24 @@ export class SearchComponent {
 
     compList;
 
-    currentComp;
+    selectedUser;
 
     @Output() newMatch = new EventEmitter();
 
+    @Output() selectedChange = new EventEmitter();
+
+    modalActions = new EventEmitter<string|MaterializeAction>();
+    openModal(selected) {
+        this.selectedUser = selected;
+        this.selectedChange.emit(selected);
+        this.modalActions.emit({action: 'modal', params: ['open']});
+    }
+    closeModal() {
+        this.modalActions.emit({action: 'modal', params: ['close']});
+    }
+
     constructor(private http: Http, private socket: SocketService, private matchService: MatchService) {
+        this.selectedUser = this.userID;
     }
 
     enterQueue() {

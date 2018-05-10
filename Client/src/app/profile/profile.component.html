@@ -1,19 +1,48 @@
-<div class="full-div">
+<div class="col l12">
     <div class="row">
-        <h2>{{ user }}</h2>
+        <h2 style="color: white">{{ user }}</h2>
     </div>
 
-    <div style="width: 80%"> <!-- Last 5 games -->
-        <h2>Last 10 games</h2>
-        <div class="col s3 center game" *ngFor="let game of games">
+    <div class="col l11"> <!-- Last 5 games -->
+        <h4 style="color: white">Last 10 games</h4>
+        <div class="center game col l2 s12" *ngFor="let game of games">
             <div class="row">
-                <a>Champion: {{game.champ}}</a>
+                <a>Champion: {{game.champ}} <br> KDA: {{game.kda}} <br> Result: {{game.win}}</a>
             </div>
-            <div class="row">
-                <a>Win/Lose: {{game.win}}</a>
-            </div>
-            <div class="row">
-                <a>KDA: {{game.kda}}</a>
+        </div>
+    </div>
+
+    <div class="col l12 s12" *ngIf="prefs">
+        <div class="center">
+            <h4 style="color: white">Preferences</h4>
+            <a>Account Name: {{prefs.account}}</a>
+            <div class="row col l12 s12">
+                <table class="col l5" style="margin-right: 15px">
+                    <thead>
+                    <tr><a>User positions</a></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="col l6 s12">
+                            <td><a>Primary: {{prefs.myPrim}}</a></td>
+                        </tr>
+                        <tr class="col l6 s12">
+                            <td><a>Secondary: {{prefs.mySec}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="col l5">
+                    <thead>
+                    <tr><a>Desired positions</a></tr>
+                    </thead>
+                    <tbody>
+                    <tr class="col l6 s12">
+                        <td><a>Primary: {{prefs.matchPrim}}</a></td>
+                    </tr>
+                    <tr class="col l6 s12">
+                        <td><a>Secondary: {{prefs.matchSec}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

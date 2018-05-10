@@ -12,7 +12,7 @@ use http\Exception;
 use Illuminate\Http\Request;
 use JWTAuth;
 
-class UserController extends Controller
+class UserController extends MatchController
 {
     public function register(Request $request){
         $credentials = $request->only('userReg', 'emailReg', 'passReg');
@@ -141,5 +141,29 @@ class UserController extends Controller
         }
         
         return response()->json($formattedGames);
+    }
+    
+    public function getPreferences(Request $request) {
+        try {
+            $userID = $request->only('userID');
+            $gameID = $request->only('gameID');
+            
+            $prefs = Preference::where('userID', $userID)->where('gameID', $gameID)->first();
+            
+            $array = [
+                'userID' => $userID['userID'],
+                'gameID' => $gameID['gameID'],
+                'account' => $prefs->account,
+                'myPrim' => $this->convertPosition($prefs->myPrimary),
+                'mySec' => $this->convertPosition($prefs->mySecondary),
+                'matchPrim' => $this->convertPosition($prefs->matchPrimary),
+                'matchSec' => $this->convertPosition($prefs->matchSecondary)
+                ];
+            
+            return response()->json($array);
+        }
+        catch (Exception $e) {
+            return response()->json('Error retrieving preferences', Response::HTTP_CONFLICT);
+        }
     }
 }

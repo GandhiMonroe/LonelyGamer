@@ -16,7 +16,23 @@ class MatchController extends Controller
     public function getAll(Request $request) {
         try {
             $userID = $request->get('userID');
-            return response()->json(Match::getAll($userID));
+            
+            $matches = Match::getAll($userID);
+    
+            $matchList = array();
+            
+            foreach ($matches as $match) {
+                $user = User::where('ID', $match->matchUserID)->first();
+                
+                $array = [
+                    'name' => $user->name,
+                    'ID' => $match->userID
+                ];
+                
+                array_push($matchList, $array);
+            }
+            
+            return response()->json($matchList);
         }
         catch (Exception $e) {
         
