@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import {Http} from '@angular/http';
 import {SocketService} from '../services/socket.service';
 import {MatchService} from '../services/match.service';
@@ -8,7 +8,7 @@ import {MatchService} from '../services/match.service';
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
     private BASE_URL = 'http://localhost:8000/api';
     private headers: Headers = new Headers({'Content-Type': 'application/json'});
 
@@ -20,12 +20,10 @@ export class SearchComponent implements OnInit {
     compList;
 
     currentComp;
-    index = 0;
+
+    @Output() newMatch = new EventEmitter();
 
     constructor(private http: Http, private socket: SocketService, private matchService: MatchService) {
-    }
-
-    ngOnInit() {
     }
 
     enterQueue() {
@@ -48,42 +46,46 @@ export class SearchComponent implements OnInit {
         const params = {userID: this.userID, gameID: this.gameID};
 
         this.http.get(url, {params: params}).subscribe(
-            (res) => { this.compList = res.json(); this.currentComp = this.compList[this.index]; }
+            (res) => { this.compList = res.json(); }
             );
     }
 
-    accept() {
+    accept(user) {
         const url = `${this.BASE_URL}/sendRequest`;
 
-        const params = {userID: this.userID, matchID: this.currentComp.userID, gameID: this.gameID};
+        const params = {userID: this.userID, matchID: user, gameID: this.gameID};
 
         this.http.get(url, {params: params}).subscribe(
 
             (res) => {
-                this.matchService.getMatches(this.userID);
+                this.newMatch.emit();
 
-                this.socket.joinRoom(this.userID, this.currentComp.userID);
+                this.socket.joinRoom(this.userID, user);
 
-                this.index += 1;
-                if (this.index !== this.compList.length) {
-                    this.currentComp = this.compList[this.index];
-                } else {
-                    this.currentComp = null;
-                    this.index = 0;
+                this.compList = this.compList.filter(item => item.userID !== user);
+
+                if (this.compList.length === 0) {
                     this.exitQueue();
-                    this.inQueue = 0;
                 }
             }
         );
     }
 
     // Change this to accept params because we displaying all the users at once now
-    decline() {
+    decline(user) {
         const url = `${this.BASE_URL}/declineRequest`;
 
-        const params = {userID: this.userID, matchID: this.currentComp.userID, gameID: this.gameID};
+        const params = {userID: this.userID, matchID: user, gameID: this.gameID};
 
-        this.http.get(url, {params: params}).subscribe();
+        this.http.get(url, {params: params}).subscribe(
+            (res) => {
+                this.compList = this.compList.filter(item => item.userID !== user);
+
+                if (this.compList.length === 0) {
+                    this.exitQueue();
+                }
+            }
+        );
     }
 
 

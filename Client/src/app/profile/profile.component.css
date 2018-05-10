@@ -22,11 +22,8 @@
     transform: translate(-50%, -50%);
 }
 
-.comp-list {
-    width: 40%;
-    height: 75%;
-    position: absolute;
-    border: thick red;
-    top: 10%;
-    left: 25%;
+.game {
+    border: solid black;
+    border-radius: 10%;
+    margin: 1%;
 }

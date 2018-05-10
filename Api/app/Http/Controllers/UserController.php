@@ -127,7 +127,11 @@ class UserController extends Controller
             
             if ($matchHistory->count()) {
                 foreach ($matchHistory as $match) {
-                    $new = array('champ' => $match->champ, 'win' => $match->win, 'kda' => $match->kda);
+                    switch ($match->win) {
+                        case false: $wl = 'L'; break;
+                        case true: $wl = 'W'; break;
+                    }
+                    $new = array('champ' => $match->champ, 'win' => $wl, 'kda' => $match->kda);
                     array_push($formattedGames, $new);
                 }
             }

@@ -72,7 +72,9 @@ class MatchController extends Controller
             foreach ($matchList as $entry) {
                 if(abs($rank - $entry->rank) < 3) {
                     $user = User::where('id', $entry->userID)->first();
-                    $array = ['userID' => $entry->userID, 'name' => $user->name, 'tier' => $entry->tier, 'div' => $entry->division];
+                    $pref = Preference::where('userID', $entry->userID)->first();
+                    $array = ['userID' => $entry->userID, 'name' => $user->name, 'tier' => $entry->tier, 'div' => $entry->division,
+                              'primary' => $this->convertPosition($pref->myPrimary), 'secondary' => $this->convertPosition($pref->mySecondary)];
                     array_push($finalList, $array);
                 }
             }
@@ -155,5 +157,17 @@ class MatchController extends Controller
         }
         
         return $rank;
+    }
+    
+    public function convertPosition($position) {
+        switch ($position) {
+            case 1: return 'TOP'; break;
+            case 2: return 'JUNGLE'; break;
+            case 3: return 'MIDDLE'; break;
+            case 4: return 'ADC'; break;
+            case 5: return 'SUPPORT'; break;
+        }
+        
+        return 'INVALID';
     }
 }

@@ -20,8 +20,6 @@ export class MatchService {
 
         const result = this.http.get(url, {params: params});
 
-        // this.matchChange.emit(true);
-
         return result;
     }
 }

@@ -42,10 +42,11 @@ export class HomeComponent implements OnInit {
         localStorage.setItem('game', '1'); // Change this pls
 
         this.matchService.getMatches(this.userID).subscribe((data) => { this.matches = data.json(); });
+    }
 
-        /*this.matchService.matchChange.subscribe(
-            (result) => { }
-        );*/
+    newMatches() {
+        this.matchService.getMatches(this.userID).subscribe((data) => { this.matches = data.json(); });
+        console.log(this.matches);
     }
 
     logOff() {

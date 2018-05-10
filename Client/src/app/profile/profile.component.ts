@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import 'materialize-css';
 import 'angular2-materialize';
 import {Http} from '@angular/http';
@@ -14,7 +14,10 @@ export class ProfileComponent implements OnInit {
 
     gameID = localStorage.getItem('game');
     user = localStorage.getItem('user');
-    userID = localStorage.getItem('userID');
+
+    @Input() inputUser;
+
+    games;
 
     constructor(private http: Http) { }
 
@@ -25,8 +28,8 @@ export class ProfileComponent implements OnInit {
     getRecentGames() {
         const url = `${this.BASE_URL}/getRecentGames`;
 
-        const params = {userID: this.userID, gameID: this.gameID};
+        const params = {userID: this.inputUser, gameID: this.gameID};
 
-        this.http.get(url, {params: params}).subscribe( (data) => console.log(data.json()));
+        this.http.get(url, {params: params}).subscribe( (data) => this.games = data.json());
     }
 }

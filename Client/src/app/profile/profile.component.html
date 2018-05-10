@@ -1,9 +1,20 @@
 <div class="full-div">
     <div class="row">
-        {{ user }}
+        <h2>{{ user }}</h2>
     </div>
 
-    <div class="row"> <!-- Last 5 games -->
-
+    <div style="width: 80%"> <!-- Last 5 games -->
+        <h2>Last 10 games</h2>
+        <div class="col s3 center game" *ngFor="let game of games">
+            <div class="row">
+                <a>Champion: {{game.champ}}</a>
+            </div>
+            <div class="row">
+                <a>Win/Lose: {{game.win}}</a>
+            </div>
+            <div class="row">
+                <a>KDA: {{game.kda}}</a>
+            </div>
+        </div>
     </div>
 </div>

@@ -4,12 +4,13 @@
         <a class="waves-effect waves-light btn top-button" *ngIf="inQueue" (click)="exitQueue()">Cancel</a>
     </div>
 
-    <div class="comp-list" *ngIf="currentComp">
-        <div class="row center"><a>{{currentComp.name}}</a></div>
-        <div class="row center"><a>{{currentComp.tier}} {{currentComp.div}}</a></div>
+    <div class="comp-list col s3" *ngFor="let user of compList">
+        <div class="row center"><a>{{user.name}}</a></div>
+        <div class="row center"><a>{{user.tier}} {{user.div}}</a></div>
+        <div class="row center"><a>{{user.primary}}/{{user.secondary}}</a></div>
         <div class="row center">
-            <a class="btn-flat left waves-circle"><i class="material-icons" style="color: green" (click)="accept()">thumb_up</i></a>
-            <a class="btn-flat right waves-circle"><i class="material-icons" style="color: red" (click)="decline()">thumb_down</i></a>
+            <a class="btn-flat left waves-circle"><i class="material-icons" style="color: green" (click)="accept(user.userID)">thumb_up</i></a>
+            <a class="btn-flat right waves-circle"><i class="material-icons" style="color: red" (click)="decline(user.userID)">thumb_down</i></a>
         </div>
     </div>
 </div>
