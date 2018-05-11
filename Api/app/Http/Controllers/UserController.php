@@ -114,8 +114,13 @@ class UserController extends MatchController
                 if ($deaths == '0') { $deaths = '1'; }
         
                 $kda = round(((int)$kills + (int)$assists) / (int)$deaths, 1);
-        
-                $new = array('champ' => $champ, 'win' => $win, 'kda' => $kda);
+    
+                switch ($win) {
+                    case false: $wl = 'L'; break;
+                    case true: $wl = 'W'; break;
+                }
+                
+                $new = array('champ' => $champ, 'win' => $wl, 'kda' => $kda);
                 array_push($formattedGames, $new);
             }
     

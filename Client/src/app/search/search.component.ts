@@ -52,7 +52,7 @@ export class SearchComponent {
 
         const params = {userID: this.userID, gameID: this.gameID};
 
-        this.http.post(url, { userID: this.userID, gameID: this.gameID }).subscribe((res) => { this.inQueue = 0; });
+        this.http.post(url, { userID: this.userID, gameID: this.gameID }).subscribe((res) => { this.inQueue = 0; this.compList = null; });
     }
 
     getList() {

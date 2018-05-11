@@ -4,7 +4,7 @@
         <a class="waves-effect waves-light btn top-button" *ngIf="inQueue" (click)="exitQueue()">Cancel</a>
     </div>
 
-    <div class="comp-list col s3 modal-trigger" *ngFor="let user of compList" >
+    <div class="comp-list col s3 modal-trigger" *ngFor="let user of compList">
         <div class="row center"><a href="#modal2" (click)="openModal(user.userID)" class="modal-trigger">{{user.name}}</a></div>
         <div class="row center"><a>{{user.tier}} {{user.div}}</a></div>
         <div class="row center"><a>{{user.primary}}/{{user.secondary}}</a></div>

@@ -37,9 +37,9 @@ export class ProfileComponent implements OnInit, OnChanges {
         let params;
 
         if (this.inputUser == null) {
-            params = {userID: this.userID, gameID: this.gameID};
+            params = {userID: 3, gameID: this.gameID};
         } else {
-            params = {userID: this.inputUser, gameID: this.gameID};
+            params = {userID: 3, gameID: this.gameID};
         }
 
         this.http.get(url, {params: params}).subscribe( (data) => this.games = data.json());
@@ -51,9 +51,9 @@ export class ProfileComponent implements OnInit, OnChanges {
         let params;
 
         if (this.inputUser == null) {
-            params = {userID: this.userID, gameID: this.gameID};
+            params = {userID: 3, gameID: this.gameID};
         } else {
-            params = {userID: this.inputUser, gameID: this.gameID};
+            params = {userID: 3, gameID: this.gameID};
         }
 
         this.http.get(url, {params: params}).subscribe( (data) => this.prefs = data.json());

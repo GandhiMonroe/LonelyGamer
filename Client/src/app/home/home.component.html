@@ -19,7 +19,7 @@
 </nav>
 <div class="row">
     <div class="match-list">
-        <h4 style="text-align: center">Matches</h4>
+        <h4 style="text-align: center; color: white;">Matches</h4>
         <div *ngFor="let match of matches" class="match">
             <a href="#modal2" (click)="openModal(match.ID)" class="modal-trigger">{{match.name}}</a>
         </div>

@@ -14,8 +14,12 @@
 
     <div class="col l12 s12" *ngIf="prefs">
         <div class="center">
-            <h4 style="color: white">Preferences</h4>
-            <a>Account Name: {{prefs.account}}</a>
+            <div class="row">
+                <h4 style="color: white; float: left;">Preferences</h4>
+            </div>
+            <div class="row">
+                <a>Account Name: {{prefs.account}}</a>
+            </div>
             <div class="row col l12 s12">
                 <table class="col l5" style="margin-right: 15px">
                     <thead>
